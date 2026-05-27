@@ -545,6 +545,52 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.4);
         }
 
+        /* Hamburger Menu */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .hamburger {
+            display: block;
+            width: 26px;
+            height: 3px;
+            background: white;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 3px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger::before { top: -8px; }
+        .hamburger::after { top: 8px; }
+
+        .nav-toggle.active .hamburger {
+            background: transparent;
+        }
+
+        .nav-toggle.active .hamburger::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+
+        .nav-toggle.active .hamburger::after {
+            transform: rotate(-45deg);
+            top: 0;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             nav ul {
@@ -568,24 +614,431 @@
             .tours-grid {
                 grid-template-columns: 1fr;
             }
+
+            /* Mobile Navigation */
+            .nav-toggle {
+                display: block;
+            }
+
+            nav ul {
+                position: fixed;
+                top: 68px;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, rgba(0,51,102,0.98) 0%, rgba(0,102,204,0.98) 100%);
+                flex-direction: column;
+                padding: 1.5rem 2rem;
+                gap: 0;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+                transform: translateY(-120%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                border-bottom: 3px solid rgba(239,43,45,0.6);
+            }
+
+            nav ul.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            nav ul li {
+                padding: 0.6rem 0;
+                border-bottom: 1px solid rgba(255,255,255,0.15);
+            }
+
+            nav ul li:last-child {
+                border-bottom: none;
+            }
+
+            nav a {
+                display: block;
+                padding: 0.6rem 1rem !important;
+            }
         }
 
         /* Smooth scroll */
         html {
             scroll-behavior: smooth;
         }
+
+        /* Booking Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 1rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+            position: relative;
+            animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.85) translateY(40px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.75rem 2rem 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-header h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #888;
+            cursor: pointer;
+            padding: 0.25rem;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--secondary-color);
+        }
+
+        .modal-body {
+            padding: 1.5rem 2rem 2rem;
+        }
+
+        .tour-summary {
+            background: linear-gradient(135deg, #f8f9fa, #f0f4f8);
+            border-radius: 14px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .tour-summary-name {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.15rem;
+        }
+
+        .tour-summary-meta {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        .booking-form .form-group {
+            margin-bottom: 1.1rem;
+        }
+
+        .booking-form label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+        }
+
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e5eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .booking-form input:focus,
+        .booking-form select:focus,
+        .booking-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(0,102,204,0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 2rem 1.75rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .modal-footer button {
+            flex: 1;
+            padding: 0.95rem 1.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        /* Tour Filters */
+        .filter-btn {
+            padding: 0.55rem 1.1rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            color: #334155;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 3px 10px rgba(0,51,102,0.3);
+        }
+
+        #tour-search:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(0,102,204,0.1);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color), #d41f21);
+            color: white;
+            box-shadow: 0 6px 18px rgba(239,43,45,0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 9px 22px rgba(239,43,45,0.4);
+        }
+
+        .success-state {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .success-state .icon {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .success-state h3 {
+            color: #166534;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-state p {
+            color: #4b5563;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #166534;
+            color: white;
+            padding: 1rem 1.75rem;
+            border-radius: 9999px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Floating Book Button */
+        .fab {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: linear-gradient(135deg, var(--secondary-color), #d41f21);
+            color: white;
+            border: none;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            font-size: 1.65rem;
+            box-shadow: 0 8px 25px rgba(239,43,45,0.45);
+            cursor: pointer;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .fab:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 30px rgba(239,43,45,0.55);
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .fab {
+                bottom: 20px;
+                right: 20px;
+                width: 54px;
+                height: 54px;
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.75rem;
+            margin-top: 1rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.75rem 1.6rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 35px rgba(0,0,0,0.13);
+        }
+
+        .testimonial-quote {
+            font-size: 1.02rem;
+            line-height: 1.6;
+            color: #374151;
+            font-style: italic;
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .testimonial-quote::before {
+            content: '“';
+            font-size: 4.5rem;
+            position: absolute;
+            left: -8px;
+            top: -22px;
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #003366, #0066CC);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .testimonial-info h4 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+
+        .testimonial-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .stars {
+            color: #f59e0b;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            margin-top: 0.15rem;
+        }
     </style>
 </head>
 <body>
+    <!-- Scroll Progress -->
+    <div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:linear-gradient(to right, #EF2B2D, #0066CC);z-index:2001;width:0%;transition:width 0.05s linear;"></div>
+
     <header>
         <nav>
             <div class="logo">Norske Opplevelser</div>
-            <ul>
+            <ul id="nav-menu">
                 <li><a href="#hjem">Hjem</a></li>
                 <li><a href="#turer">Turer</a></li>
                 <li><a href="#om">Om Oss</a></li>
                 <li><a href="#kontakt">Kontakt</a></li>
             </ul>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
         </nav>
     </header>
 
@@ -597,9 +1050,25 @@
 
     <section class="tours" id="turer">
         <h2 class="section-title">Våre Populære Turopplevelser</h2>
+
+        <!-- Tour Filters -->
+        <div class="tour-filters" style="display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center; margin-bottom:1.5rem;">
+            <input type="text" id="tour-search" placeholder="🔍 Search tours..." 
+                   style="padding:0.6rem 1rem; border:2px solid #ddd; border-radius:999px; font-size:0.95rem; min-width:220px; max-width:100%; margin-right:0.4rem;">
+            
+            <div class="filter-buttons" style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+                <button class="filter-btn active" data-filter="all">All Tours</button>
+                <button class="filter-btn" data-filter="summer">☀️ Summer</button>
+                <button class="filter-btn" data-filter="winter">❄️ Winter</button>
+                <button class="filter-btn" data-filter="year">📅 Year-round</button>
+            </div>
+        </div>
+
         <div class="tours-grid">
-            <div class="tour-card">
-                <div class="tour-image">🏔️</div>
+            <div class="tour-card" data-season="winter">
+                <div class="tour-image" style="background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.35)), url('https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center;">
+                    <span style="position:absolute;bottom:12px;right:14px;font-size:1.6rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6));">🏔️</span>
+                </div>
                 <div class="tour-content">
                     <h3 class="tour-title">Nordlys Safari i Tromsø</h3>
                     <div class="tour-location">Tromsø, Nord-Norge</div>
@@ -624,8 +1093,10 @@
                 </div>
             </div>
 
-            <div class="tour-card">
-                <div class="tour-image">⛵</div>
+            <div class="tour-card" data-season="summer">
+                <div class="tour-image" style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1559825481-12a05cc00344?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center;">
+                    <span style="position:absolute;bottom:12px;right:14px;font-size:1.6rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6));">⛵</span>
+                </div>
                 <div class="tour-content">
                     <h3 class="tour-title">Geirangerfjorden Cruise</h3>
                     <div class="tour-location">Geiranger, Møre og Romsdal</div>
@@ -650,8 +1121,10 @@
                 </div>
             </div>
 
-            <div class="tour-card">
-                <div class="tour-image">🚂</div>
+            <div class="tour-card" data-season="year">
+                <div class="tour-image" style="background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.35)), url('https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center;">
+                    <span style="position:absolute;bottom:12px;right:14px;font-size:1.6rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6));">🚂</span>
+                </div>
                 <div class="tour-content">
                     <h3 class="tour-title">Flåmsbanen Opplevelse</h3>
                     <div class="tour-location">Flåm, Vestland</div>
@@ -676,8 +1149,10 @@
                 </div>
             </div>
 
-            <div class="tour-card">
-                <div class="tour-image">🥾</div>
+            <div class="tour-card" data-season="summer">
+                <div class="tour-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.35)), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center;">
+                    <span style="position:absolute;bottom:12px;right:14px;font-size:1.6rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6));">🥾</span>
+                </div>
                 <div class="tour-content">
                     <h3 class="tour-title">Preikestolen Vandring</h3>
                     <div class="tour-location">Stavanger, Rogaland</div>
@@ -702,8 +1177,10 @@
                 </div>
             </div>
 
-            <div class="tour-card">
-                <div class="tour-image">🐋</div>
+            <div class="tour-card" data-season="summer">
+                <div class="tour-image" style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.35)), url('https://images.unsplash.com/photo-1568430462989-44163eb1752f?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center;">
+                    <span style="position:absolute;bottom:12px;right:14px;font-size:1.6rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6));">🐋</span>
+                </div>
                 <div class="tour-content">
                     <h3 class="tour-title">Hval Safari i Andenes</h3>
                     <div class="tour-location">Andenes, Nordland</div>
@@ -728,8 +1205,10 @@
                 </div>
             </div>
 
-            <div class="tour-card">
-                <div class="tour-image">🏛️</div>
+            <div class="tour-card" data-season="year">
+                <div class="tour-image" style="background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center;">
+                    <span style="position:absolute;bottom:12px;right:14px;font-size:1.6rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6));">🏛️</span>
+                </div>
                 <div class="tour-content">
                     <h3 class="tour-title">Bergen Kultur Tour</h3>
                     <div class="tour-location">Bergen, Vestland</div>
@@ -751,6 +1230,46 @@
                         </div>
                     </div>
                     <div class="tour-price">750 kr</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" style="background:rgba(255,255,255,0.96); border-radius:20px; margin:2rem auto; padding:4rem 2rem; max-width:1200px; box-shadow:0 10px 40px rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.6);">
+        <h2 class="section-title" style="margin-bottom:2rem;">What Our Guests Say</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-quote">The Northern Lights safari was absolutely magical. Our guide knew exactly where to go and we saw the most incredible display. Best experience of our lives!</div>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">MK</div>
+                    <div class="testimonial-info">
+                        <h4>Maria &amp; Karl Hansen</h4>
+                        <p>Germany • February 2025</p>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-quote">Flåmsbanen with the guide was fantastic. Learned so much history and the views were out of this world. Highly recommend for families!</div>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">SJ</div>
+                    <div class="testimonial-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>United Kingdom • July 2024</p>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-quote">Preikestolen hike was perfectly organized. Early start meant we had the famous rock almost to ourselves. Incredible photos and a very safe experience.</div>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">TH</div>
+                    <div class="testimonial-info">
+                        <h4>Thomas Berg</h4>
+                        <p>Norway • June 2024</p>
+                        <div class="stars">★★★★☆</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -833,7 +1352,7 @@
 
     <footer>
         <div class="footer-content">
-            <p>&copy; 2024 Norske Opplevelser. Alle rettigheter reservert.</p>
+            <p>&copy; <span id="current-year">2024</span> Norske Opplevelser. Alle rettigheter reservert.</p>
             <div class="social-links">
                 <a href="#" style="color: white; text-decoration: none;">📘</a>
                 <a href="#" style="color: white; text-decoration: none;">📷</a>
@@ -844,6 +1363,36 @@
     </footer>
 
     <script>
+        // Mobile Navigation Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                const isActive = navMenu.classList.toggle('active');
+                navToggle.classList.toggle('active', isActive);
+                navToggle.setAttribute('aria-expanded', isActive);
+            });
+
+            // Close mobile menu when clicking a nav link
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -858,11 +1407,29 @@
             });
         });
 
-        // Form submission handler
+        // Form submission handler (enhanced)
         function handleSubmit(event) {
             event.preventDefault();
-            alert('Takk for din melding! Vi kommer tilbake til deg så snart som mulig. 🇳🇴');
-            event.target.reset();
+            const form = event.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+
+            submitBtn.textContent = 'Sender...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                showToast('Takk! Meldingen er sendt. Vi kontakter deg innen kort tid. 🇳🇴');
+                form.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+
+                // Extra visual feedback
+                form.style.transition = 'all .3s';
+                form.style.boxShadow = '0 0 0 4px rgba(22, 101, 52, 0.2)';
+                setTimeout(() => {
+                    form.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.8)';
+                }, 1800);
+            }, 850);
         }
 
         // Add some interactivity on scroll
@@ -887,6 +1454,313 @@
             card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(card);
         });
+
+        // ========== BOOKING MODAL LOGIC ==========
+        const modal = document.getElementById('booking-modal');
+        const modalClose = document.getElementById('modal-close');
+        const modalCancel = document.getElementById('modal-cancel');
+        const modalSubmit = document.getElementById('modal-submit');
+        const fabButton = document.getElementById('fab-button');
+
+        let currentTour = { name: '', price: '', location: '' };
+        const modalFooter = document.getElementById('modal-footer');
+
+        function openModal(tourName, price, location) {
+            currentTour = { name: tourName, price: price, location: location || '' };
+
+            // Reset to form state
+            document.getElementById('booking-form-state').style.display = 'block';
+            document.getElementById('booking-success-state').style.display = 'none';
+            if (modalFooter) modalFooter.style.display = 'flex';
+
+            // Fill summary
+            document.getElementById('summary-tour-name').textContent = tourName;
+            const meta = location ? `${location} • ${price}` : price;
+            document.getElementById('summary-tour-meta').textContent = meta;
+
+            // Pre-fill today's date + 3 days as sensible default
+            const dateInput = document.getElementById('book-date');
+            const defaultDate = new Date();
+            defaultDate.setDate(defaultDate.getDate() + 3);
+            dateInput.value = defaultDate.toISOString().split('T')[0];
+
+            // Show modal
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            // Focus first field
+            setTimeout(() => document.getElementById('book-name').focus(), 300);
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        // Close handlers
+        [modalClose, modalCancel].forEach(btn => btn && btn.addEventListener('click', closeModal));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+
+        // Submit booking
+        modalSubmit.addEventListener('click', () => {
+            const form = document.getElementById('booking-form');
+            const name = document.getElementById('book-name').value.trim();
+            const email = document.getElementById('book-email').value.trim();
+            const date = document.getElementById('book-date').value;
+
+            if (!name || !email || !date) {
+                alert('Please fill in name, email and preferred date.');
+                return;
+            }
+
+            // Show loading on button
+            const originalText = modalSubmit.textContent;
+            modalSubmit.textContent = 'Processing...';
+            modalSubmit.disabled = true;
+
+            // Simulate network request
+            setTimeout(() => {
+                // Switch to success view
+                document.getElementById('booking-form-state').style.display = 'none';
+                document.getElementById('booking-success-state').style.display = 'block';
+                document.getElementById('success-email').textContent = email;
+                if (modalFooter) modalFooter.style.display = 'none';
+
+                modalSubmit.textContent = originalText;
+                modalSubmit.disabled = false;
+
+                // Show toast notification
+                showToast(`Booking request received for ${currentTour.name}!`);
+
+                // Auto close modal after a few seconds
+                setTimeout(() => {
+                    if (modal.classList.contains('active')) {
+                        closeModal();
+                        // Reset form fields for next time
+                        form.reset();
+                    }
+                }, 5200);
+            }, 1250);
+        });
+
+        // FAB button opens general booking
+        if (fabButton) {
+            fabButton.addEventListener('click', () => {
+                openModal('General Inquiry', 'Contact for pricing', 'Your choice of tour');
+            });
+        }
+
+        // Helper: nice toast
+        function showToast(message) {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<span>✅</span> <span>${message}</span>`;
+            document.body.appendChild(toast);
+
+            // Trigger show
+            requestAnimationFrame(() => toast.classList.add('show'));
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3800);
+        }
+
+        // Make tour cards clickable to open booking (bonus)
+        document.querySelectorAll('.tour-card').forEach(card => {
+            const titleEl = card.querySelector('.tour-title');
+            const priceEl = card.querySelector('.tour-price');
+            const locationEl = card.querySelector('.tour-location');
+
+            if (titleEl && priceEl) {
+                // Add a prominent Book button to each card
+                const bookBtn = document.createElement('button');
+                bookBtn.className = 'book-btn';
+                bookBtn.textContent = 'Book this tour →';
+                bookBtn.style.cssText = 'margin-top:0.75rem;width:100%;padding:0.75rem 1rem;background:linear-gradient(90deg,#003366,#0066CC);color:white;border:none;border-radius:10px;font-weight:700;font-size:0.95rem;cursor:pointer;transition:all 0.2s;';
+
+                bookBtn.addEventListener('mouseenter', () => bookBtn.style.transform = 'translateY(-1px)');
+                bookBtn.addEventListener('mouseleave', () => bookBtn.style.transform = 'none');
+
+                const priceContainer = priceEl.parentElement;
+                priceContainer.appendChild(bookBtn);
+
+                bookBtn.addEventListener('click', (e) => {
+                    e.stopImmediatePropagation();
+                    const name = titleEl.textContent.trim();
+                    const price = priceEl.textContent.trim();
+                    const loc = locationEl ? locationEl.textContent.trim() : '';
+                    openModal(name, price, loc);
+                });
+            }
+        });
+
+        // ========== TOUR FILTERING + SEARCH ==========
+        const searchInput = document.getElementById('tour-search');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const tourCards = document.querySelectorAll('.tour-card');
+        let currentFilter = 'all';
+
+        function filterTours() {
+            const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+            tourCards.forEach(card => {
+                const title = card.querySelector('.tour-title')?.textContent.toLowerCase() || '';
+                const location = card.querySelector('.tour-location')?.textContent.toLowerCase() || '';
+                const desc = card.querySelector('.tour-description')?.textContent.toLowerCase() || '';
+                const season = card.getAttribute('data-season') || 'year';
+
+                const matchesSearch = !searchTerm || 
+                    title.includes(searchTerm) || 
+                    location.includes(searchTerm) || 
+                    desc.includes(searchTerm);
+
+                let matchesFilter = true;
+                if (currentFilter === 'summer') matchesFilter = season === 'summer';
+                else if (currentFilter === 'winter') matchesFilter = season === 'winter';
+                else if (currentFilter === 'year') matchesFilter = season === 'year';
+
+                if (matchesSearch && matchesFilter) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Filter button handlers
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                filterTours();
+            });
+        });
+
+        // Live search
+        if (searchInput) {
+            searchInput.addEventListener('input', () => filterTours());
+        }
+
+        // Scroll progress bar
+        const progressBar = document.getElementById('scroll-progress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            if (progressBar) progressBar.style.width = scrollPercent + '%';
+        });
+
+        // Dynamic year in footer
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+        // Back to top button (simple)
+        const backToTop = document.createElement('button');
+        backToTop.textContent = '↑';
+        backToTop.setAttribute('aria-label', 'Back to top');
+        backToTop.style.cssText = 'position:fixed;bottom:105px;right:28px;width:44px;height:44px;border-radius:50%;background:rgba(0,51,102,0.85);color:white;border:none;font-size:1.4rem;cursor:pointer;opacity:0;pointer-events:none;transition:all 0.3s;z-index:998;';
+        document.body.appendChild(backToTop);
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 700) {
+                backToTop.style.opacity = '1';
+                backToTop.style.pointerEvents = 'all';
+            } else {
+                backToTop.style.opacity = '0';
+                backToTop.style.pointerEvents = 'none';
+            }
+        });
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     </script>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="booking-modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal-header">
+                <h3 id="modal-title">Book Your Adventure</h3>
+                <button class="modal-close" id="modal-close" aria-label="Close booking modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Default form state -->
+                <div id="booking-form-state">
+                    <div class="tour-summary">
+                        <div class="tour-summary-name" id="summary-tour-name">Tour Name</div>
+                        <div class="tour-summary-meta" id="summary-tour-meta">Location • Price</div>
+                    </div>
+
+                    <form id="booking-form" class="booking-form">
+                        <div class="form-group">
+                            <label for="book-name">Full Name *</label>
+                            <input type="text" id="book-name" required placeholder="Ola Nordmann">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="book-email">Email *</label>
+                                <input type="email" id="book-email" required placeholder="you@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="book-phone">Phone</label>
+                                <input type="tel" id="book-phone" placeholder="+47 123 45 678">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="book-date">Preferred Date *</label>
+                                <input type="date" id="book-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="book-people">Number of Guests *</label>
+                                <select id="book-people" required>
+                                    <option value="1">1 person</option>
+                                    <option value="2" selected>2 people</option>
+                                    <option value="3">3 people</option>
+                                    <option value="4">4 people</option>
+                                    <option value="5">5 people</option>
+                                    <option value="6">6 people</option>
+                                    <option value="7">7+ people (contact us)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="book-notes">Special Requests or Questions</label>
+                            <textarea id="book-notes" rows="3" placeholder="Any dietary needs, accessibility requirements, or questions?"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Success state (hidden initially) -->
+                <div id="booking-success-state" class="success-state" style="display: none;">
+                    <span class="icon">🎉</span>
+                    <h3>Booking Request Sent!</h3>
+                    <p>Thank you! We'll contact you within 2 hours to confirm your tour and payment details.</p>
+                    <p style="font-size:0.9rem; opacity:0.7;">A confirmation email has been sent to <span id="success-email"></span></p>
+                </div>
+            </div>
+
+            <div class="modal-footer" id="modal-footer">
+                <button type="button" class="btn-secondary" id="modal-cancel">Cancel</button>
+                <button type="button" class="btn-primary" id="modal-submit">Confirm Booking</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="fab-button" title="Book a tour" aria-label="Quick book a tour">📅</button>
 </body>
 </html>
